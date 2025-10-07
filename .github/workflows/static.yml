@@ -38,12 +38,12 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build app
-        run: npm run build 
+        run: npm ci && npm run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          path: './dist'
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v4
