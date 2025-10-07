@@ -80,9 +80,9 @@ let currentModel = null;
 /** Per-model config (paths + transforms) */
 const MODELS = {
   house: {
-    path: '/House2_100.fbx',
+    path: './House2_100.fbx',
     textures: {
-      map: '/shaded.png',
+      map: './shaded.png',
       // normalMap: '/normal_map.png',
       // aoMap: '/ambient_occlusion.png',
     },
@@ -90,7 +90,7 @@ const MODELS = {
     scale: new THREE.Vector3(0.15, 0.15, 0.15),
   },
   table: {
-    path: '/000.fbx', // <-- put your table .fbx here
+    path: './000.fbx', // <-- put your table .fbx here
     textures: {
       // map: '/shaded.png',
     },
