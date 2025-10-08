@@ -1,0 +1,19 @@
+# .dockerignore
+
+# Node dependencies
+node_modules
+
+# Vite build output (we build this inside the container)
+dist
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Log files
+npm-debug.log*
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
