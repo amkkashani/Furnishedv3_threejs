@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 
-export default defineConfig( {
-    // base: process.env.Node_ENV ==='production'? '/Furnishedv3_threejs/': ''
-    base: '/Furnishedv3_threejs/',
+// vite.config.js
+import { defineConfig } from 'vite'
+export default defineConfig({
+  base: '/', // was '/Furnishedv3_threejs/'
 })
