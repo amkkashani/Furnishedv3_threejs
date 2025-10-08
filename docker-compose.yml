@@ -1,0 +1,12 @@
+services:
+  # This is the name of our service
+  threejs-app:
+    # Build the Docker image from the Dockerfile in the current directory (.)
+    build: .
+    # A friendly name for the running container
+    container_name: threejs-app-container
+    # Map port 8080 on your local machine to port 80 inside the container (where Nginx is running)
+    ports:
+      - "8080:80"
+    # Automatically restart the container if it stops, unless you manually stop it
+    restart: unless-stopped
