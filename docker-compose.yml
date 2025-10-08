@@ -1,0 +1,7 @@
+services:
+  furnished:
+    build: .
+    container_name: furnished-threejs
+    ports:
+      - "7030:80"   # host:container
+    restart: unless-stopped
