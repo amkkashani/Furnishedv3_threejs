@@ -9,7 +9,7 @@ import GUI from 'lil-gui';
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#eef0a1');
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 20, 40);
+camera.position.set(0, 120, 240);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -32,7 +32,7 @@ gui.addColor({ background: '#eef0a1' }, 'background')
   .name('Background Color')
   .onChange((value) => scene.background.set(value));
 
-const objectOptions = { selected: 'table' };
+const objectOptions = { selected: 'abstract_table' };
 gui.add(objectOptions, 'selected', ['table', 'house', 'abstract_table'])
   .name('Select Object')
   .onChange((value) => switchModel(value));
@@ -194,48 +194,52 @@ function setupStandardNamingGUI(model) {
     
     features.forEach((feature) => {
       const { axes, operation, objectName, object } = feature;
-      const axesStr = axes.join('');
-      const controlName = `${objectName} (${axesStr} ${operation})`;
       
-      // Create control object for GUI
-      const control = { value: 1.0 };
-      
-      // Determine initial value based on operation
-      if (operation.toLowerCase() === 'scale') {
-        // Get initial scale from first axis
-        const firstAxis = axes[0].toLowerCase();
-        control.value = object.scale[firstAxis] || 1.0;
+      // Create separate control for EACH axis
+      axes.forEach((axis) => {
+        const axisLower = axis.toLowerCase();
+        const controlName = `${objectName} ${axis} ${operation}`;
         
-        // Set range based on initial value (allow 10x smaller to 10x larger)
-        const minScale = Math.max(0.01, control.value * 0.1);
-        const maxScale = control.value * 10;
+        // Create control object for GUI
+        const control = { value: 1.0 };
         
-        const controller = featuresFolder
-          .add(control, 'value', minScale, maxScale)
-          .name(controlName)
-          .onChange((value) => {
-            applyFeatureScale(object, axes, value);
-            // Re-process attachments after scale change
-            processAttachments(attachments, objectMap);
-          });
-        
-        featureControllers.push(controller);
-      } else if (operation.toLowerCase() === 'rotation' || operation.toLowerCase() === 'rotate') {
-        // Get initial rotation from first axis
-        const firstAxis = axes[0].toLowerCase();
-        control.value = THREE.MathUtils.radToDeg(object.rotation[firstAxis] || 0);
-        
-        const controller = featuresFolder
-          .add(control, 'value', -180, 180)
-          .name(controlName)
-          .onChange((value) => {
-            applyFeatureRotation(object, axes, value);
-            // Re-process attachments after rotation change
-            processAttachments(attachments, objectMap);
-          });
-        
-        featureControllers.push(controller);
-      }
+        // Determine initial value based on operation
+        if (operation.toLowerCase() === 'scale') {
+          // Get initial scale for this specific axis
+          control.value = object.scale[axisLower] || 1.0;
+          
+          // Set range based on initial value (allow 10x smaller to 10x larger)
+          const minScale = Math.max(0.01, control.value * 0.1);
+          const maxScale = control.value * 10;
+          
+          const controller = featuresFolder
+            .add(control, 'value', minScale, maxScale)
+            .name(controlName)
+            .onChange((value) => {
+              // Apply scale only to this specific axis
+              applyFeatureScale(object, [axis], value);
+              // Re-process attachments after scale change
+              processAttachments(attachments, objectMap);
+            });
+          
+          featureControllers.push(controller);
+        } else if (operation.toLowerCase() === 'rotation' || operation.toLowerCase() === 'rotate') {
+          // Get initial rotation for this specific axis
+          control.value = THREE.MathUtils.radToDeg(object.rotation[axisLower] || 0);
+          
+          const controller = featuresFolder
+            .add(control, 'value', -180, 180)
+            .name(controlName)
+            .onChange((value) => {
+              // Apply rotation only to this specific axis
+              applyFeatureRotation(object, [axis], value);
+              // Re-process attachments after rotation change
+              processAttachments(attachments, objectMap);
+            });
+          
+          featureControllers.push(controller);
+        }
+      });
     });
   }
   
