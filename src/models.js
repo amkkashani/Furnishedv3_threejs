@@ -33,6 +33,14 @@ const MODELS = {
     scale: new THREE.Vector3(1, 1, 1),
     standard_naming: true,
   },
+  desk_detail: {
+    path: '/Try2.fbx',
+    textures: {},
+    position: new THREE.Vector3(0, 0, 0),
+    scale: new THREE.Vector3(0.15, 0.15, 0.15),
+    standard_naming: true,
+  },
+
 };
 
 /** Dispose a model's geometries & materials to prevent memory leaks */

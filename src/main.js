@@ -5,7 +5,7 @@ import { animate } from './animation.js';
 
 // Object selection GUI
 const objectOptions = { selected: 'abstract_table' };
-gui.add(objectOptions, 'selected', ['table', 'house', 'abstract_table'])
+gui.add(objectOptions, 'selected', ['table', 'house', 'abstract_table','desk_detail'])
   .name('Select Object')
   .onChange((value) => switchModel(value));
 
